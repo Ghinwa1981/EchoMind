@@ -18,7 +18,7 @@ EchoMind is not a stateless chatbot. It's a persistent Mind with:
 
 - **Long-term memory (DNA):** learns the creator's voice, audience, and content style once, and applies it consistently across every future task — no re-briefing required.
 - **Autonomous processing:** given raw material (a link, a transcript, rough notes), it independently breaks it down into platform-specific deliverables.
-- **Continuity:** picks up exactly where it left off across sessions, referencing past decisions and feedback.
+- **Continuity across channels:** picks up exactly where it left off across sessions and across communication channels (web, email, Telegram), referencing past decisions and feedback.
 
 ### Deliverables per content piece
 1. A short caption/script for TikTok/Instagram (under 60 seconds read aloud)
@@ -31,25 +31,26 @@ To validate the Mind's memory and consistency, EchoMind was tested against a sam
 
 > **Nadine** — makes short-form educational content explaining AI/tech concepts in plain language for non-technical professionals (25–35, marketing/finance/design). Voice: casual, warm, a little sarcastic about hype and jargon. Format: under-60-second clarity.
 
-EchoMind was given this persona once, and successfully retained and applied it across multiple separate content requests and a fresh session — see `/docs/demo-transcripts.md` for full examples.
+EchoMind was given this persona once, and successfully retained and applied it consistently across multiple separate content requests, a fresh session, and a different communication channel (Telegram) — see `/docs/demo-transcripts.md` for full examples.
 
 ## Current Status
 
 - ✅ Mind created and live on [Minds by Animoca Brands](https://hellominds.ai)
 - ✅ Persona/DNA established and validated across sessions (memory + continuity confirmed)
 - ✅ Two full content transformations tested (chatbot-vs-agent explainer, on-chain identity explainer)
-- ✅ Telegram bot connected and live (@GhinwaEchoMind_bot)
+- ✅ Telegram bot connected and live ([@GhinwaEchoMind_bot](https://t.me/GhinwaEchoMind_bot)) — confirmed working, memory persists across web/email and Telegram channels
 - ⏳ Multi-platform auto-formatting logic (beyond chat) — in progress
 
-## Tech Stack (planned)
+## Tech Stack
 
-- **Minds API** — core agent runtime, memory, persona
-- **Telegram Bot API** — content intake channel
+- **Minds API / Minds CLI** — core agent runtime, memory, persona
+- **Telegram Bot API** (via BotFather) — content intake and delivery channel
 - Backend (TBD): connects Telegram → Mind → structured output
 
 ## Mind Details
 
 - **Mind ID:** `51a8443e-f36b-1410-8466-00039ce7df11`
+- **Telegram Bot:** [@GhinwaEchoMind_bot](https://t.me/GhinwaEchoMind_bot)
 - **Platform:** [hellominds.ai](https://hellominds.ai)
 
 ## Track
