@@ -38,7 +38,7 @@ EchoMind was given this persona once, and successfully retained and applied it a
 - ✅ Mind created and live on [Minds by Animoca Brands](https://hellominds.ai)
 - ✅ Persona/DNA established and validated across sessions (memory + continuity confirmed)
 - ✅ Two full content transformations tested (chatbot-vs-agent explainer, on-chain identity explainer)
-- ⏳ Telegram intake bot — in progress
+- ✅ Telegram bot connected and live (@GhinwaEchoMind_bot)
 - ⏳ Multi-platform auto-formatting logic (beyond chat) — in progress
 
 ## Tech Stack (planned)
