@@ -68,6 +68,45 @@
 
   .sidebar-spacer{flex:1;}
 
+  .side-divider{height:1px;background:var(--navy-border);margin:22px 0;position:relative;z-index:2;}
+
+  .persona-card{
+    background:linear-gradient(160deg, rgba(76,124,240,0.14), rgba(76,124,240,0.02));
+    border:1px solid rgba(76,124,240,0.25);border-radius:15px;padding:15px;
+    position:relative;z-index:2;margin-bottom:16px;
+  }
+  .persona-head{display:flex;align-items:center;gap:10px;margin-bottom:11px;}
+  .persona-avatar{
+    width:34px;height:34px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(135deg,var(--orange),#E08A1E);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:#1a1200;
+  }
+  .persona-name{font-weight:700;font-size:0.9rem;color:#fff;font-family:'Space Grotesk',sans-serif;}
+  .persona-role{font-size:0.68rem;color:#8FA3D9;}
+  .persona-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+  .persona-tags .tag{
+    font-size:0.66rem;font-weight:600;color:#C7D4FF;background:rgba(76,124,240,0.22);
+    padding:3px 9px;border-radius:999px;
+  }
+  .persona-desc{margin:0;font-size:0.74rem;color:#9AA7C9;line-height:1.5;}
+
+  .mini-stats{display:flex;gap:8px;position:relative;z-index:2;margin-bottom:18px;}
+  .mini-stat{
+    flex:1;background:var(--navy-2);border:1px solid var(--navy-border);border-radius:12px;
+    padding:10px 6px;text-align:center;
+  }
+  .mini-stat .ms-n{display:block;font-weight:700;font-size:1.05rem;color:#fff;line-height:1.1;}
+  .mini-stat .ms-l{display:block;font-size:0.62rem;color:#8792B3;margin-top:3px;line-height:1.2;}
+
+  .recent-activity{position:relative;z-index:2;margin-bottom:8px;}
+  .ra-label{font-size:0.68rem;font-weight:700;color:#6E7A9C;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;}
+  .ra-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .ra-item:last-child{border-bottom:none;}
+  .ra-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);margin-top:5px;flex-shrink:0;}
+  .ra-title{font-size:0.78rem;color:#D6DCF0;font-weight:500;line-height:1.35;}
+  .ra-time{font-size:0.66rem;color:#6E7A9C;margin-top:2px;}
+
   .waveform-mini{display:flex;align-items:flex-end;gap:3px;height:22px;margin:4px 0 14px;position:relative;z-index:2;}
   .waveform-mini span{width:3px;border-radius:2px;background:var(--orange);animation:wf 1.4s ease-in-out infinite;display:block;}
   .waveform-mini span:nth-child(1){height:40%;animation-delay:0s;}
@@ -121,7 +160,15 @@
   .hero-meta .m .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;}
   .hero-meta .m .l{font-size:0.74rem;color:var(--text-mute);}
 
-  .echo-stage{position:relative;height:320px;display:flex;align-items:center;justify-content:center;}
+  .echo-frame{
+    position:relative;background:var(--surface);border:1px solid var(--border);
+    border-radius:24px;padding:20px 20px 46px;
+    box-shadow:0 24px 50px -30px rgba(20,30,70,0.25);
+    background-image:radial-gradient(var(--border) 1px, transparent 1px);
+    background-size:18px 18px;
+    background-position:-4px -4px;
+  }
+  .echo-stage{position:relative;height:260px;display:flex;align-items:center;justify-content:center;}
   .echo-ring{position:absolute;border-radius:50%;border:1.5px solid var(--orange);animation:echo-out 3.2s cubic-bezier(.2,.6,.3,1) infinite;opacity:0;}
   .echo-ring.r1{animation-delay:0s;}
   .echo-ring.r2{animation-delay:0.8s;}
@@ -130,16 +177,28 @@
   @keyframes echo-out{
     0%{width:70px;height:70px;opacity:0.75;border-width:2px;}
     85%{opacity:0;}
-    100%{width:300px;height:300px;opacity:0;border-width:.5px;}
+    100%{width:260px;height:260px;opacity:0;border-width:.5px;}
   }
   .echo-core{
-    position:relative;z-index:3;width:96px;height:96px;border-radius:50%;
+    position:relative;z-index:3;width:92px;height:92px;border-radius:50%;
     background:linear-gradient(140deg,var(--blue),var(--blue-dark));
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 20px 40px -14px rgba(53,96,214,0.55);
   }
-  .echo-core svg{width:38px;height:38px;}
-  .echo-caption{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:0.76rem;color:var(--text-mute);}
+  .echo-core svg{width:36px;height:36px;}
+
+  .orbit-chip{
+    position:absolute;z-index:4;background:#fff;border:1px solid var(--border);
+    border-radius:999px;padding:6px 13px;font-size:0.72rem;font-weight:600;
+    color:var(--text-main);box-shadow:0 8px 18px -8px rgba(20,30,70,0.22);
+    animation:float 5s ease-in-out infinite;
+  }
+  .orbit-chip.oc1{top:6%;left:2%;animation-delay:0s;}
+  .orbit-chip.oc2{bottom:10%;left:-2%;animation-delay:1.6s;}
+  .orbit-chip.oc3{top:12%;right:0%;animation-delay:3.2s;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+
+  .echo-caption{position:absolute;bottom:16px;left:0;right:0;text-align:center;font-size:0.76rem;color:var(--text-mute);}
   .echo-caption .mono{color:var(--blue-dark);font-size:0.72rem;}
 
   .workspace-wrap{padding:6px 48px 60px;}
@@ -211,7 +270,8 @@
     .main{margin-left:0;}
     .hero{padding:40px 22px 20px;}
     .workspace-wrap{padding:6px 22px 40px;}
-    .echo-stage{height:220px;}
+    .echo-frame{padding:16px 16px 36px;}
+    .echo-stage{height:200px;}
   }
 </style>
 </head>
@@ -244,6 +304,57 @@
       </div>
     </nav>
 
+    <div class="side-divider"></div>
+
+    <div class="persona-card">
+      <div class="persona-head">
+        <div class="persona-avatar">N</div>
+        <div>
+          <div class="persona-name">Nadine</div>
+          <div class="persona-role">Active voice profile</div>
+        </div>
+      </div>
+      <div class="persona-tags">
+        <span class="tag">Casual</span>
+        <span class="tag">Warm</span>
+        <span class="tag">Anti-hype</span>
+      </div>
+      <p class="persona-desc">Explains tech to non-technical professionals, 25–35. Smart-friend-over-coffee tone.</p>
+    </div>
+
+    <div class="mini-stats">
+      <div class="mini-stat">
+        <span class="ms-n display">2</span>
+        <span class="ms-l">reformatted</span>
+      </div>
+      <div class="mini-stat">
+        <span class="ms-n display">3</span>
+        <span class="ms-l">formats each</span>
+      </div>
+      <div class="mini-stat">
+        <span class="ms-n display">0</span>
+        <span class="ms-l">re-briefs</span>
+      </div>
+    </div>
+
+    <div class="recent-activity">
+      <div class="ra-label">Recent</div>
+      <div class="ra-item">
+        <div class="ra-dot"></div>
+        <div class="ra-text">
+          <div class="ra-title">On-chain identity, explained</div>
+          <div class="ra-time">via Telegram · 3 formats</div>
+        </div>
+      </div>
+      <div class="ra-item">
+        <div class="ra-dot"></div>
+        <div class="ra-text">
+          <div class="ra-title">Chatbot vs. AI agent</div>
+          <div class="ra-time">via web · 3 formats</div>
+        </div>
+      </div>
+    </div>
+
     <div class="sidebar-spacer"></div>
 
     <div class="waveform-mini" aria-hidden="true">
@@ -273,13 +384,18 @@
         </div>
       </div>
 
-      <div class="echo-stage" aria-hidden="true">
-        <div class="echo-ring r1"></div>
-        <div class="echo-ring r2"></div>
-        <div class="echo-ring r3"></div>
-        <div class="echo-ring r4"></div>
-        <div class="echo-core">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="white" stroke="none"/><circle cx="18" cy="16" r="3" fill="white" stroke="none"/></svg>
+      <div class="echo-frame" aria-hidden="true">
+        <div class="echo-stage">
+          <div class="echo-ring r1"></div>
+          <div class="echo-ring r2"></div>
+          <div class="echo-ring r3"></div>
+          <div class="echo-ring r4"></div>
+          <div class="echo-core">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="white" stroke="none"/><circle cx="18" cy="16" r="3" fill="white" stroke="none"/></svg>
+          </div>
+          <div class="orbit-chip oc1">TikTok</div>
+          <div class="orbit-chip oc2">YouTube</div>
+          <div class="orbit-chip oc3">X</div>
         </div>
         <div class="echo-caption">what you say, still echoing — <span class="mono">51a8443e…</span></div>
       </div>
