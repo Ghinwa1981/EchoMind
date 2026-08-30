@@ -59,7 +59,7 @@
     font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.03em;
     font-size:clamp(2.6rem,6.2vw,5.2rem);line-height:0.98;margin:0 0 28px;max-width:900px;
   }
-  .hero h1 .stroke{color:transparent;-webkit-text-stroke:1.5px var(--ink);}
+  .hero h1 .fade{color:var(--mute-2);}
   .hero p.lede{font-size:1.1rem;color:var(--mute);max-width:520px;margin:0 0 40px;line-height:1.6;}
 
   /* waveform signature */
@@ -194,7 +194,7 @@
 <section class="hero">
   <div class="wrap">
     <div class="eyebrow"><div class="live-dot"></div> Built for Creative Minds Jam — Track 2</div>
-    <h1>One voice.<br><span class="stroke">Every platform.</span></h1>
+    <h1>One voice.<br><span class="fade">Every platform.</span></h1>
     <p class="lede">You say it once. EchoMind remembers how you sound, and turns it into TikTok, YouTube, and X — every time, without repeating yourself.</p>
 
     <div class="waveform-wrap">
@@ -261,7 +261,7 @@
         <textarea id="rawInput">Why is on-chain identity such a big deal for AI agents right now?</textarea>
         <div class="voice-line">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 9l12-2"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          Applying Nadine's voice automatically
+          Applying Hanzada's voice automatically
         </div>
         <button class="btn-generate" onclick="runDemo()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
@@ -357,7 +357,7 @@ function render(){
 }
 function runDemo(){
   const box = document.getElementById('outputBox');
-  box.innerHTML = `<div class="empty-state">Writing in Nadine's voice…</div>`;
+  box.innerHTML = `<div class="empty-state">Writing in Hanzada's voice…</div>`;
   setTimeout(()=>{ box.dataset.filled = "true"; render(); }, 850);
 }
 </script>
