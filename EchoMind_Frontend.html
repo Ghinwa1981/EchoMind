@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EchoMind — one voice, every platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #0B1220;
+    --navy-2: #121B30;
+    --navy-border: #24314F;
+    --blue: #4C7CF0;
+    --blue-dark: #3560D6;
+    --orange: #F6A631;
+    --orange-soft: #FBD9A0;
+    --canvas: #F3F5FC;
+    --surface: #FFFFFF;
+    --border: #E5E8F5;
+    --text-main: #10162A;
+    --text-mute: #6C7593;
+    --sidebar-w: 264px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;font-family:'Inter',sans-serif;background:var(--canvas);
+    color:var(--text-main);display:flex;min-height:100vh;overflow-x:hidden;
+  }
+  ::selection{background:var(--orange-soft);}
+  .serif{font-family:'Fraunces',serif;}
+  .display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;} }
+
+  /* ================= SIDEBAR ================= */
+  .sidebar{width:var(--sidebar-w);flex:0 0 var(--sidebar-w);background:var(--navy);color:#fff;}
+  .sidebar-inner{
+    display:flex;flex-direction:column;height:100vh;position:fixed;top:0;left:0;
+    width:var(--sidebar-w);padding:28px 20px;overflow:hidden;
+  }
+  .sidebar-inner::before{
+    content:'';position:absolute;top:-30%;left:-50%;width:220%;height:70%;
+    background:radial-gradient(circle at 30% 20%, rgba(76,124,240,0.32), transparent 62%);
+    pointer-events:none;
+  }
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:38px;position:relative;z-index:2;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:11px;flex-shrink:0;position:relative;
+    background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .brand-mark svg{width:19px;height:19px;}
+  .brand-mark::after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;background:var(--orange);top:-3px;right:-2px;}
+  .brand-text .name{font-weight:700;font-size:1.05rem;font-family:'Space Grotesk',sans-serif;letter-spacing:-0.01em;}
+  .brand-text .tag{font-size:0.7rem;color:#8792B3;margin-top:1px;}
+
+  .nav{display:flex;flex-direction:column;gap:3px;position:relative;z-index:2;}
+  .nav-item{
+    display:flex;align-items:center;gap:12px;padding:10px 13px;border-radius:10px;
+    color:#A9B2CE;font-size:0.87rem;font-weight:500;cursor:pointer;
+    border:1px solid transparent;transition:background .15s,color .15s;
+  }
+  .nav-item svg{width:16px;height:16px;flex-shrink:0;opacity:.85;}
+  .nav-item:hover{background:rgba(255,255,255,.05);color:#fff;}
+  .nav-item.active{background:rgba(76,124,240,.16);border-color:rgba(76,124,240,.4);color:#fff;}
+
+  .sidebar-spacer{flex:1;}
+
+  .waveform-mini{display:flex;align-items:flex-end;gap:3px;height:22px;margin:4px 0 14px;position:relative;z-index:2;}
+  .waveform-mini span{width:3px;border-radius:2px;background:var(--orange);animation:wf 1.4s ease-in-out infinite;display:block;}
+  .waveform-mini span:nth-child(1){height:40%;animation-delay:0s;}
+  .waveform-mini span:nth-child(2){height:80%;animation-delay:.15s;}
+  .waveform-mini span:nth-child(3){height:55%;animation-delay:.3s;}
+  .waveform-mini span:nth-child(4){height:95%;animation-delay:.45s;}
+  .waveform-mini span:nth-child(5){height:35%;animation-delay:.6s;}
+  .waveform-mini span:nth-child(6){height:70%;animation-delay:.75s;}
+  .waveform-mini span:nth-child(7){height:50%;animation-delay:.9s;}
+  @keyframes wf{0%,100%{transform:scaleY(0.4);}50%{transform:scaleY(1);}}
+
+  .telegram-card{
+    background:var(--navy-2);border:1px solid var(--navy-border);border-radius:16px;
+    padding:16px;position:relative;z-index:2;margin-top:auto;
+  }
+  .telegram-card .row{display:flex;align-items:center;gap:9px;margin-bottom:9px;}
+  .tg-dot{width:7px;height:7px;border-radius:50%;background:#3ED598;box-shadow:0 0 0 4px rgba(62,213,152,.18);flex-shrink:0;}
+  .telegram-card .row span{font-size:0.8rem;font-weight:600;}
+  .telegram-card p{margin:0 0 10px;font-size:0.74rem;color:#8792B3;line-height:1.5;}
+  .telegram-card .handle{padding-top:10px;border-top:1px solid var(--navy-border);font-size:0.72rem;color:var(--blue);}
+
+  /* ================= MAIN ================= */
+  .main{flex:1;margin-left:var(--sidebar-w);min-width:0;}
+
+  .hero{
+    position:relative;padding:64px 48px 40px;overflow:hidden;
+    background:
+      radial-gradient(700px 400px at 78% -10%, rgba(76,124,240,0.10), transparent 60%),
+      radial-gradient(500px 300px at 10% 0%, rgba(246,166,49,0.09), transparent 60%);
+  }
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;font-size:0.76rem;font-weight:600;
+    color:var(--blue-dark);background:#E9EFFF;border:1px solid #D6E1FF;padding:6px 13px;
+    border-radius:999px;margin-bottom:22px;letter-spacing:0.01em;
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#3ED598;}
+
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center;}
+  @media(max-width:980px){.hero-grid{grid-template-columns:1fr;}}
+
+  .hero h1{
+    font-family:'Fraunces',serif;font-weight:500;font-style:normal;
+    font-size:clamp(2.1rem,4vw,3.05rem);line-height:1.06;letter-spacing:-0.01em;
+    margin:0 0 20px;color:var(--text-main);
+  }
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--blue-dark);}
+  .hero p.lede{font-size:1.02rem;color:var(--text-mute);max-width:480px;line-height:1.6;margin:0 0 26px;}
+
+  .hero-meta{display:flex;gap:26px;flex-wrap:wrap;}
+  .hero-meta .m{display:flex;flex-direction:column;gap:2px;}
+  .hero-meta .m .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.3rem;}
+  .hero-meta .m .l{font-size:0.74rem;color:var(--text-mute);}
+
+  .echo-stage{position:relative;height:320px;display:flex;align-items:center;justify-content:center;}
+  .echo-ring{position:absolute;border-radius:50%;border:1.5px solid var(--orange);animation:echo-out 3.2s cubic-bezier(.2,.6,.3,1) infinite;opacity:0;}
+  .echo-ring.r1{animation-delay:0s;}
+  .echo-ring.r2{animation-delay:0.8s;}
+  .echo-ring.r3{animation-delay:1.6s;}
+  .echo-ring.r4{animation-delay:2.4s;}
+  @keyframes echo-out{
+    0%{width:70px;height:70px;opacity:0.75;border-width:2px;}
+    85%{opacity:0;}
+    100%{width:300px;height:300px;opacity:0;border-width:.5px;}
+  }
+  .echo-core{
+    position:relative;z-index:3;width:96px;height:96px;border-radius:50%;
+    background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 20px 40px -14px rgba(53,96,214,0.55);
+  }
+  .echo-core svg{width:38px;height:38px;}
+  .echo-caption{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:0.76rem;color:var(--text-mute);}
+  .echo-caption .mono{color:var(--blue-dark);font-size:0.72rem;}
+
+  .workspace-wrap{padding:6px 48px 60px;}
+  .section-label{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .section-label .line{flex:1;height:1px;background:var(--border);}
+  .section-label span{font-size:0.78rem;font-weight:600;color:var(--text-mute);letter-spacing:0.02em;text-transform:uppercase;}
+
+  .workspace{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
+  @media(max-width:980px){.workspace{grid-template-columns:1fr;}}
+
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px;}
+  .panel-title{display:flex;align-items:center;gap:9px;margin-bottom:6px;font-weight:600;font-size:1.02rem;font-family:'Space Grotesk',sans-serif;}
+  .panel-title .ico{width:19px;height:19px;color:var(--blue-dark);flex-shrink:0;}
+  .panel-sub{font-size:0.85rem;color:var(--text-mute);margin:0 0 18px;line-height:1.55;}
+
+  label.field-label{font-size:0.8rem;font-weight:600;margin-bottom:8px;display:block;color:var(--text-main);}
+  textarea{
+    width:100%;min-height:140px;resize:vertical;border:1px solid var(--border);border-radius:13px;
+    padding:14px;font-family:'Inter',sans-serif;font-size:0.9rem;background:#FBFCFF;color:var(--text-main);
+  }
+  textarea:focus-visible{outline:2px solid var(--blue-dark);outline-offset:1px;background:#fff;}
+
+  .voice-chip{
+    display:flex;align-items:center;gap:9px;background:#EEF3FF;border:1px solid #D8E3FF;
+    border-radius:11px;padding:11px 13px;margin-top:14px;font-size:0.78rem;color:var(--blue-dark);font-weight:500;
+  }
+  .voice-chip svg{width:15px;height:15px;flex-shrink:0;}
+
+  .btn-primary{
+    margin-top:18px;width:100%;background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+    color:#fff;border:none;border-radius:13px;padding:13px;font-weight:600;font-size:0.92rem;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 10px 22px -10px rgba(53,96,214,0.65);transition:transform .12s;
+  }
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-primary:focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
+  .btn-primary svg{width:16px;height:16px;}
+
+  .tabs{display:flex;gap:6px;background:#F0F2F9;padding:4px;border-radius:12px;margin-bottom:16px;}
+  .tab{flex:1;text-align:center;padding:9px 0;border-radius:9px;font-size:0.82rem;font-weight:600;color:var(--text-mute);cursor:pointer;transition:background .15s,color .15s;}
+  .tab.active{background:#fff;color:var(--text-main);box-shadow:0 1px 3px rgba(20,30,60,.08);}
+  .tab:focus-visible{outline:2px solid var(--blue-dark);outline-offset:1px;}
+
+  .output-box{
+    background:#FBFCFF;border:1px solid var(--border);border-radius:15px;padding:19px;
+    min-height:190px;font-size:0.87rem;line-height:1.65;color:var(--text-main);white-space:pre-line;
+    animation:fadein .35s ease;
+  }
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+  .platform-tag{
+    display:inline-block;font-size:0.68rem;font-weight:700;letter-spacing:0.04em;color:var(--blue-dark);
+    background:#E8EEFF;padding:3px 9px;border-radius:999px;margin-bottom:10px;text-transform:uppercase;
+  }
+
+  .empty-state{text-align:center;padding:30px 10px;color:var(--text-mute);}
+  .mini-rings{position:relative;width:56px;height:56px;margin:0 auto 14px;}
+  .mini-ring{position:absolute;border-radius:50%;border:1.5px solid var(--orange);inset:0;animation:echo-out 2.4s cubic-bezier(.2,.6,.3,1) infinite;opacity:0;}
+  .mini-ring.a{animation-delay:0s;}
+  .mini-ring.b{animation-delay:.6s;}
+  .mini-ring.c{animation-delay:1.2s;}
+  .mini-core{position:absolute;inset:14px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-dark));}
+  .empty-state p{margin:0;font-size:0.85rem;}
+
+  .footer-note{margin:8px 0 0;font-size:0.78rem;color:var(--text-mute);display:flex;align-items:center;gap:8px;}
+  .footer-note svg{width:14px;height:14px;flex-shrink:0;}
+
+  @media(max-width:760px){
+    .sidebar{display:none;}
+    .main{margin-left:0;}
+    .hero{padding:40px 22px 20px;}
+    .workspace-wrap{padding:6px 22px 40px;}
+    .echo-stage{height:220px;}
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-inner">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="6" fill="white"/><circle cx="9.5" cy="10.5" r="1.1" fill="#3560D6"/><circle cx="14.5" cy="10.5" r="1.1" fill="#3560D6"/></svg>
+      </div>
+      <div class="brand-text">
+        <div class="name">EchoMind</div>
+        <div class="tag">Content twin</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <div class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+        Content log
+      </div>
+      <div class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.14.36.22.75.22 1.15V10a2 2 0 010 4z"/></svg>
+        Voice settings
+      </div>
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="waveform-mini" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="telegram-card">
+      <div class="row"><div class="tg-dot"></div><span>Telegram connected</span></div>
+      <p>Send raw content anytime — it's waiting for you, reformatted, next time you check.</p>
+      <div class="handle mono">@GhinwaEchoMind_bot</div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow"><span class="dot"></span> Mind online · voice locked to Nadine</div>
+        <h1>One voice.<br>Every <em>platform</em>, without repeating yourself.</h1>
+        <p class="lede">EchoMind is the part of your workflow that used to be a Sunday-night chore — rewriting the same idea for TikTok, YouTube, and X. Now you say it once. It remembers how you sound.</p>
+        <div class="hero-meta">
+          <div class="m"><span class="n display">3</span><span class="l">formats per idea</span></div>
+          <div class="m"><span class="n display">0</span><span class="l">times re-explained</span></div>
+          <div class="m"><span class="n display">Web · TG</span><span class="l">channels, one memory</span></div>
+        </div>
+      </div>
+
+      <div class="echo-stage" aria-hidden="true">
+        <div class="echo-ring r1"></div>
+        <div class="echo-ring r2"></div>
+        <div class="echo-ring r3"></div>
+        <div class="echo-ring r4"></div>
+        <div class="echo-core">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3" fill="white" stroke="none"/><circle cx="18" cy="16" r="3" fill="white" stroke="none"/></svg>
+        </div>
+        <div class="echo-caption">what you say, still echoing — <span class="mono">51a8443e…</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="workspace-wrap">
+    <div class="section-label"><span>Try it</span><div class="line"></div></div>
+
+    <div class="workspace">
+      <div class="panel">
+        <div class="panel-title">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Raw material
+        </div>
+        <p class="panel-sub">Paste a transcript, a link, or rough notes — it'll figure out the rest.</p>
+
+        <label class="field-label" for="rawInput">What do you want reformatted?</label>
+        <textarea id="rawInput">Why is on-chain identity such a big deal for AI agents right now?</textarea>
+
+        <div class="voice-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 9l12-2"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          Casual, warm, a little sarcastic about hype — applied automatically
+        </div>
+
+        <button class="btn-primary" onclick="runDemo()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          Generate for all platforms
+        </button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 3v18M15 3v18"/></svg>
+          Platform outputs
+        </div>
+        <div class="tabs">
+          <div class="tab active" data-tab="tiktok" onclick="switchTab('tiktok')" tabindex="0">TikTok / IG</div>
+          <div class="tab" data-tab="youtube" onclick="switchTab('youtube')" tabindex="0">YouTube</div>
+          <div class="tab" data-tab="x" onclick="switchTab('x')" tabindex="0">X</div>
+        </div>
+        <div class="output-box" id="outputBox">
+          <div class="empty-state">
+            <div class="mini-rings"><div class="mini-ring a"></div><div class="mini-ring b"></div><div class="mini-ring c"></div><div class="mini-core"></div></div>
+            <p>Nothing sent yet — hit generate to hear it in your voice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Built on Minds by Animoca Brands · Mind ID 51a8443e-f36b-1410-8466-00039ce7df11
+    </div>
+  </div>
+</main>
+
+<script>
+const demoOutputs = {
+  tiktok: `Everyone's saying "AI agent" like it's a thing. It's not — most people mean "chatbot with better marketing."
+
+A chatbot is a vending machine. You press a button, you get a thing. An agent is closer to handing a task to a smart intern — they figure out the steps, do the legwork, check back in.
+
+That's why on-chain identity matters now: agents are starting to hire each other, and nobody can tell a reliable one from a scam yet.`,
+  youtube: `Everyone keeps saying "on-chain identity" right now like it's a crypto thing. It's not — it's a trust thing.
+
+AI agents are starting to act on their own: booking things, paying for services, hiring other agents to handle parts of a job. But when an agent shows up and says "I can do this for you," how do you know it's actually delivered before? You don't — unless there's a permanent, verifiable ID plus a public track record anyone can check.
+
+Think of it like a passport plus a reputation score that nobody can fake. We've built versions of this before — HTTPS for websites, DKIM for email. Agents are just next.`,
+  x: `• "If an agent says 'I can do this for you,' how do you know it's actually delivered before? On-chain identity fixes that."
+
+• "It's not a crypto thing. It's a trust thing — the agent economy version of HTTPS."
+
+• "Without it, agents doing business with agents is just bots making promises in a room with no doors."`
+};
+
+let currentTab = 'tiktok';
+
+function switchTab(tab){
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  if(document.getElementById('outputBox').dataset.filled) renderOutput();
+}
+
+function renderOutput(){
+  const box = document.getElementById('outputBox');
+  const labels = {tiktok:'TikTok / Instagram', youtube:'YouTube description', x:'X pull-quotes'};
+  box.innerHTML = `<span class="platform-tag">${labels[currentTab]}</span>\n\n${demoOutputs[currentTab]}`;
+}
+
+function runDemo(){
+  const box = document.getElementById('outputBox');
+  box.innerHTML = `<div class="empty-state"><div class="mini-rings"><div class="mini-ring a"></div><div class="mini-ring b"></div><div class="mini-ring c"></div><div class="mini-core"></div></div><p>Writing in Nadine's voice…</p></div>`;
+  setTimeout(()=>{
+    box.dataset.filled = "true";
+    renderOutput();
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
